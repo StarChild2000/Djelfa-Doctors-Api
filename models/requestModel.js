@@ -9,9 +9,19 @@ const requestSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        enum: ['not handled', 'in progress', 'done'],
+        default: 'not handled'
+    },
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    responsible: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        default: null
     }
 })
 

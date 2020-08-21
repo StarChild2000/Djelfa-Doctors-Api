@@ -2,7 +2,7 @@ const Request = require('../models/requestModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getRequests = catchAsync(async (req, res, next) => {
-    const requests = await Request.find().sort('-createdAt');
+    const requests = await Request.find().sort('-createdAt').populate('responsible');
 
     res.status(200).json({
         status: 'success',
@@ -27,5 +27,14 @@ exports.deleteRequest = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: null
+    })
+})
+
+exports.updateRequest = catchAsync(async (req, res, next) => {
+    await Request.findByIdAndUpdate(req.params.id, req.body);
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Request Updated'
     })
 })

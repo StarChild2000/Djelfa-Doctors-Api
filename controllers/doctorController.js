@@ -1,4 +1,6 @@
 const Doctor = require('../models/DoctorModel');
+const Request = require('../models/requestModel');
+const Report = require('../models/reportModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllDoctors = catchAsync(async (req, res, next) => {
@@ -64,6 +66,9 @@ exports.editDoctor = catchAsync(async (req, res, next) => {
 })
 
 exports.deleteDoctor = catchAsync(async (req, res, next) => {
+    if (req.body.user.role !== 'super admin') {
+        return next(new AppError('You dont have the permission to preform this action', 401))
+    }
     await Doctor.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
@@ -82,5 +87,23 @@ exports.search = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         doctors
+    })
+})
+
+exports.getStats = catchAsync(async (req, res, next) => {
+    const recentDoctors = await Doctor.find().sort('-createdAt').select('name _id gender description').limit(4);
+    const requests = await Request.find();
+    const reports = await Report.find();
+    const doctors = await Doctor.find();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            recentDoctors,
+            totalDoctors: doctors.length,
+            totalRequests: requests.length,
+            totalReports: reports.length
+        }
+
     })
 })
