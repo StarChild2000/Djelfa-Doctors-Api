@@ -19,6 +19,10 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
 })
 
 exports.deleteAdmin = catchAsync(async (req, res, next) => {
+
+    if (!req.body.admin) return next(new AppError('You are not logged in', 401))
+    if (!req.body.admin.role === 'super admin') return next(new AppError('You dont have the permission to prefom this action', 401))
+
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json({
         status: 'success',

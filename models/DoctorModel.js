@@ -7,7 +7,7 @@ const doctorSchema = new mongoose.Schema({
     },
     speciality: {
         type: String,
-        enum: ['general', 'pediatre', 'gyneco', 'ophta', 'cardio', 'dermato', 'neuro', 'orl', 'nephro', 'radio', 'pneumo', 'rhumato', 'intern', 'sergeon', 'psyco'],
+        enum: ['general', 'pediatre', 'gyneco', 'ophta', 'cardio', 'dermato', 'neuro', 'orl', 'nephro', 'radio', 'pneumo', 'rhumato', 'intern', 'sergeon', 'psyco', 'dentist', 'diabet', 'digest'],
         required: true
     },
     adress: {

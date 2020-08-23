@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/').patch(getAllAdmins).post(createAdmin)
 router.route('/login').post(login)
 router.route('/logout').get(logout);
-router.route('/:id').delete(deleteAdmin);
+router.route('/:id').post(deleteAdmin);
 
 
 module.exports = router;
